@@ -7,7 +7,14 @@ def show_menu() -> str:
         0 — Выход
         Ваш выбор: """)
 
+def validate_spaces(string: str) -> str:
+    if string.strip() == '':
+        raise ValueError("Вы ничего не ввели!")
+    else:
+        return string.strip()
+
 def validate_user_input() -> int:
+
     try:
         user_input = int(input(show_menu()))
     except ValueError:
@@ -19,8 +26,8 @@ def validate_user_input() -> int:
     return user_input
 
 def add_contact(phonebook: dict[str, str]) -> None:
-    name = input("Введите имя: ", )
-    phonenumber = input("Введите номер телефона: ", )
+    name = validate_spaces(input("Введите имя: ", ))
+    phonenumber = validate_spaces(input("Введите номер телефона: ", ))
 
     if name in phonebook.keys():
         raise ValueError(f"Ошибка: контакт «{name}» уже существует.") from None
@@ -29,20 +36,20 @@ def add_contact(phonebook: dict[str, str]) -> None:
     print(f"Контакт <{name} : {phonenumber}> был успешно добавлен!")
 
 def find_contact(phonebook: dict[str, str]) -> None:
-    name = input("Введите имя: ", )
+    name = validate_spaces(input("Введите имя: ", ))
     if name in phonebook.keys():
         print(f'<{name}> : <{phonebook[name]}>')
+    else:
+        print("Контакт не найден.")
 
 def delete_contact(phonebook: dict[str, str]) -> None:
-    name = input("Введите имя: ", )
+    name = validate_spaces(input("Введите имя: ", ))
 
     if name in phonebook.keys():
         phonebook.pop(name)
         print(f"Контакт <{name}> удалён.")
     else:
         print(f"Контакт <{name}> не найден.")
-
-
 
 def show_all_contacts(phonebook: dict[str, str]) -> None:
     if phonebook.keys():
